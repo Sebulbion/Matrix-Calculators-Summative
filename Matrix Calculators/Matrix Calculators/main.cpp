@@ -200,6 +200,22 @@ BOOL CALLBACK GaussianDlgProc(HWND _hwnd,
 		return TRUE;
 		break;
 	}
+	case WM_COMMAND:
+	{
+		switch (LOWORD(_wparam))
+		{
+			case IDC_BUTTON1:
+			{
+				MessageBoxA(_hwnd, "AHH", "AHH", MB_OK);
+				break;
+			}
+			default:
+			{
+				break;
+			}
+		}
+		break;
+	}
 	default:
 		break;
 	}
