@@ -54,15 +54,6 @@ void CGaussian::MultiplyMatrix(HWND _hDlg)
 		iRow -= 1;
 	}
 
-	/*if (iRow == 2)
-	{
-		iRow += 3;
-	}
-	else if (iRow == 3)
-	{
-		iRow += 6;
-	}*/
-
 	for (int i = 0; i < 4; i++)
 	{
 		m_vecfMatrix.at(iRow*4 + i) *= ReadFromEditBox(_hDlg, IDC_EDIT_MULTY);

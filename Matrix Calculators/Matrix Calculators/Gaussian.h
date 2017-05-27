@@ -1,9 +1,6 @@
 
 #pragma once
 
-#ifndef GAUSSIAN_H
-#define GAUSSIAN_H
-
 #include <vector>
 #include <Windows.h>
 #include "resource.h"
@@ -28,5 +25,3 @@ private:
 	//HWND m_hDlg;
 };					  
 					  
-	
-#endif // !GAUSSIAN_H
