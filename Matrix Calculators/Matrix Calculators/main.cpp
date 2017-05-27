@@ -22,6 +22,7 @@
 #include "resource.h"
 
 #include "Gaussian.h"
+#include "Transformation.h"
 
 #define WINDOW_CLASS_NAME L"WINCLASS1"
 
@@ -41,7 +42,7 @@ LRESULT CALLBACK WindowProc(HWND _hwnd,
 	// This is the main message handler of the system.
 	PAINTSTRUCT ps; // Used in WM_PAINT.
 	HDC hdc;        // Handle to a device context.
-
+	
 	// What is the message?
 	switch (_msg)
 	{
