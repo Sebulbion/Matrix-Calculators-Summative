@@ -196,7 +196,7 @@ BOOL CALLBACK GaussianDlgProc(HWND _hwnd,
 	LPARAM _lparam)
 {
 
-	static CGaussian s_Gaussian;
+	CGaussian s_Gaussian;
 
 	switch (_msg)
 	{
@@ -214,7 +214,18 @@ BOOL CALLBACK GaussianDlgProc(HWND _hwnd,
 			{
 				s_Gaussian.GetMatrix(g_hDlgGaussian);
 				s_Gaussian.MultiplyMatrix(g_hDlgGaussian);
-				MessageBoxA(_hwnd, "AHH", "AHH", MB_OK);
+				break;
+			}
+			case IDC_BUTTON2:
+			{
+				s_Gaussian.GetMatrix(g_hDlgGaussian);
+				s_Gaussian.Swap(g_hDlgGaussian);
+				break;
+			}
+			case IDC_BUTTON3:
+			{
+				s_Gaussian.GetMatrix(g_hDlgGaussian);
+				s_Gaussian.MultiAdd(g_hDlgGaussian);
 				break;
 			}
 			default:

@@ -17,6 +17,8 @@ public:
 	~CGaussian();												
 	void GetMatrix(HWND _hDlg);
 	void MultiplyMatrix(HWND _hDlg);
+	void MultiAdd(HWND _hDlg);
+	void Swap(HWND _hDlg);
 
 private:	
 
