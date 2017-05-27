@@ -173,7 +173,7 @@ BOOL CALLBACK TransformationDlgProc(HWND _hwnd,
 	WPARAM _wparam,
 	LPARAM _lparam)
 {
-
+	static CTransformation& traTransform = CTransformation::GetInstance();
 
 	switch (_msg)
 	{
@@ -183,10 +183,24 @@ BOOL CALLBACK TransformationDlgProc(HWND _hwnd,
 		return TRUE;
 		break;
 	}
+	case WM_COMMAND:
+	{
+		switch (LOWORD(_wparam))
+		{
+		case (IDC_BUTTON4):
+		{
+			traTransform.ApplyScaling(_hwnd);
+			break;
+		}
+		default:
+			break;
+		}
+	}
 	default:
 		break;
 	}
 	return FALSE;
+	
 }
 
 

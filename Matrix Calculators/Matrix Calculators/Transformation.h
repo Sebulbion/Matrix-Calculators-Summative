@@ -1,4 +1,8 @@
 #pragma once
+
+#include <Windows.h>
+#include "resource.h"
+
 class CTransformation
 {
 public:
@@ -6,8 +10,8 @@ public:
 
 	static CTransformation& GetInstance();
 
-	//void SetResultantMat(float _rgInputMat[4][4]);
-	void ApplyScaling(float _X, float _Y, float _Z, float _rgResultMat[4][4]);
+	//void SetResultantMat(HWND _hDlg);
+	void ApplyScaling(HWND _hDlg);
 	void CreateIdentatyMatrix(float _rgMatrix[4][4]);
 
 private:
@@ -15,8 +19,9 @@ private:
 	CTransformation();
 	CTransformation(const CTransformation& _kr);
 	CTransformation& operator=(const CTransformation& _kr);
+	void WriteToDialogBoxCMFormat(HWND _hDlg);
 
-	void MultiplyMatrix(float _rgInputMat[4][4], float _rgResultMat[4][4]);
+	void MultiplyMatrix(HWND _hDlg, float _rgInputMat[4][4]);
 	float m_rgfResultantMat[4][4] = {
 		{ 1,0,0,0 },
 		{ 0,1,0,0 },
