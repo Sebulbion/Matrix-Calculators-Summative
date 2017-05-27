@@ -78,6 +78,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Gaussian.h" />
+    <ClInclude Include="MatrixOperations.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Transformation.h" />
     <ClInclude Include="utils.h" />
@@ -88,6 +89,7 @@
   <ItemGroup>
     <ClCompile Include="Gaussian.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MatrixOperations.cpp" />
     <ClCompile Include="Transformation.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
