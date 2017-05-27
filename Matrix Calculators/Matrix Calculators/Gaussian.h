@@ -1,12 +1,30 @@
+
 #pragma once
+
+#ifndef GAUSSIAN_H
+#define GAUSSIAN_H
+
+#include <vector>
+#include <Windows.h>
+#include "resource.h"
+
+ 
+
 class CGaussian
 {																
 public:															
-	CGaussian();												
+	CGaussian();
 	~CGaussian();												
-	void GetMatrix();
-private:			  
-					  
+	void GetMatrix(HWND _hDlg);
+	void MultiplyMatrix(HWND _hDlg);
+
+private:	
+
+	std::vector<float> m_vecfMatrix;
+	std::vector<size_t> m_vecMatrixEdits;
+
+	//HWND m_hDlg;
 };					  
 					  
-					  
+	
+#endif // !GAUSSIAN_H

@@ -21,6 +21,8 @@
 #include "utils.h"
 #include "resource.h"
 
+#include "Gaussian.h"
+
 #define WINDOW_CLASS_NAME L"WINCLASS1"
 
 HMENU g_hMenu;
@@ -171,6 +173,7 @@ BOOL CALLBACK TransformationDlgProc(HWND _hwnd,
 	LPARAM _lparam)
 {
 
+
 	switch (_msg)
 	{
 	case WM_CLOSE:
@@ -192,6 +195,8 @@ BOOL CALLBACK GaussianDlgProc(HWND _hwnd,
 	LPARAM _lparam)
 {
 
+	static CGaussian s_Gaussian;
+
 	switch (_msg)
 	{
 	case WM_CLOSE:
@@ -206,6 +211,8 @@ BOOL CALLBACK GaussianDlgProc(HWND _hwnd,
 		{
 			case IDC_BUTTON1:
 			{
+				s_Gaussian.GetMatrix(g_hDlgGaussian);
+				s_Gaussian.MultiplyMatrix(g_hDlgGaussian);
 				MessageBoxA(_hwnd, "AHH", "AHH", MB_OK);
 				break;
 			}
