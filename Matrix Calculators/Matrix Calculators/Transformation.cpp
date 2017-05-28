@@ -107,10 +107,10 @@ void CTransformation::MultiplyMatrix(HWND _hDlg, float _rgInputMat[4][4])
 		for (size_t j = 0; j < 4; ++j)
 		{
 			m_rgfResultantMat[i][j] =
-				m_rgfTempMat[i][0] * _rgInputMat[0][j] +
-				m_rgfTempMat[i][1] * _rgInputMat[1][j] +
-				m_rgfTempMat[i][2] * _rgInputMat[2][j] +
-				m_rgfTempMat[i][3] * _rgInputMat[3][j];
+				_rgInputMat[i][0] * m_rgfTempMat[0][j] +
+				_rgInputMat[i][1] * m_rgfTempMat[1][j] +
+				_rgInputMat[i][2] * m_rgfTempMat[2][j] +
+				_rgInputMat[i][3] * m_rgfTempMat[3][j];
 		}
 	}
 
