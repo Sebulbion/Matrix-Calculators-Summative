@@ -15,16 +15,18 @@ public:
 	void GetMatrixB(HWND _hDlg);
 	void WriteMatrix(HWND _hDlg);
 	void Identity(bool _bIsA);
-	void Determinant(bool _bIsA);
+	void Determinant(HWND _hDlg,bool _bIsA);
 	void Transpose(bool _bIsA);
 	void Inverse(bool _bIsA);
 	void ScalarMultiply(bool _bIsA, HWND _hDlg);
 	
 	void Addition();
-	void Subtraction();
+	void Subtraction(bool _bIsA);
 	void Multiply(bool _bIsA); // _bIsA true = A*B
 
 private:
+
+	float Det3D(float _rgfMatrix[3][3]);
 
 	std::vector<float> m_vecfMatrixA;
 	std::vector<float> m_vecfMatrixB;

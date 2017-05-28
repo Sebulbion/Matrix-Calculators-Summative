@@ -25,6 +25,8 @@
 #include "Transformation.h"
 #include "MatrixOperations.h"
 
+#include <vld.h>
+
 #define WINDOW_CLASS_NAME L"WINCLASS1"
 
 HMENU g_hMenu;
@@ -204,6 +206,42 @@ BOOL CALLBACK MatrixDlgProc(HWND _hwnd,
 			s_Matrix.WriteMatrix(g_hDlgMatrix);
 			break;
 		}
+		case IDOK:
+		{
+			s_Matrix.GetMatrixA(g_hDlgMatrix);
+			s_Matrix.GetMatrixB(g_hDlgMatrix);
+			s_Matrix.Addition();
+			s_Matrix.WriteMatrix(g_hDlgMatrix);
+			break;
+		}
+		case IDC_A_MINUS_B:
+		{
+			s_Matrix.GetMatrixA(g_hDlgMatrix);
+			s_Matrix.GetMatrixB(g_hDlgMatrix);
+			s_Matrix.Subtraction(true);
+			s_Matrix.WriteMatrix(g_hDlgMatrix);
+			break;
+		}
+		case IDC_B_MINUS_A:
+		{
+			s_Matrix.GetMatrixA(g_hDlgMatrix);
+			s_Matrix.GetMatrixB(g_hDlgMatrix);
+			s_Matrix.Subtraction(false);
+			s_Matrix.WriteMatrix(g_hDlgMatrix);
+			break;
+		}
+		case IDC_DETA:
+		{
+			s_Matrix.GetMatrixA(g_hDlgMatrix);
+			s_Matrix.Determinant(g_hDlgMatrix,true);
+			break;
+		}
+		case IDC_DETB:
+		{
+			s_Matrix.GetMatrixB(g_hDlgMatrix);
+			s_Matrix.Determinant(g_hDlgMatrix, false);
+			break;
+		}
 		default:
 			break;
 		}
@@ -294,6 +332,12 @@ BOOL CALLBACK GaussianDlgProc(HWND _hwnd,
 			{
 				s_Gaussian.GetMatrix(g_hDlgGaussian);
 				s_Gaussian.MultiAdd(g_hDlgGaussian);
+				break;
+			}
+			case IDC_BUTTON4:
+			{
+				s_Gaussian.GetMatrix(g_hDlgGaussian);
+				//s_Gaussian.Automate(g_hDlgGaussian);
 				break;
 			}
 			default:
