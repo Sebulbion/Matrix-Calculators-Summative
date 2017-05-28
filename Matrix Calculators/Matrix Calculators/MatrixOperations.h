@@ -11,12 +11,14 @@ class CMatrixOperations
 public:
 	CMatrixOperations();
 	~CMatrixOperations();
-	void GetMatrix(HWND _hDlg);
+	void GetMatrixA(HWND _hDlg);
+	void GetMatrixB(HWND _hDlg);
+	void WriteMatrix(HWND _hDlg);
 	void Identity(bool _bIsA);
 	void Determinant(bool _bIsA);
 	void Transpose(bool _bIsA);
 	void Inverse(bool _bIsA);
-	void ScalarMultiply(bool _bIsA);
+	void ScalarMultiply(bool _bIsA, HWND _hDlg);
 	
 	void Addition();
 	void Subtraction();
@@ -24,8 +26,13 @@ public:
 
 private:
 
-	std::vector<float> m_vecfMatrix;
-	std::vector<size_t> m_vecMatrixEdits;
+	std::vector<float> m_vecfMatrixA;
+	std::vector<float> m_vecfMatrixB;
+	std::vector<float> m_vecfMatrixR;
+	std::vector<size_t> m_vecMatrixEditsA;
+	std::vector<size_t> m_vecMatrixEditsB;
+	std::vector<size_t> m_vecMatrixEditsR;
+
 
 	//HWND m_hDlg;
 };
