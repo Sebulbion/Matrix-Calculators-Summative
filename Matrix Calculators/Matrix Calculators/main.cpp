@@ -31,6 +31,7 @@
 
 HMENU g_hMenu;
 HWND g_hDlgMatrix, g_hDlgTransformation, g_hDlgGaussian, g_hDlgQuaternion, g_hDlgSLERP;
+HWND g_ComboBox;		 // Handle to the combo box.
 
 void GameLoop()
 {
@@ -266,6 +267,7 @@ BOOL CALLBACK TransformationDlgProc(HWND _hwnd,
 	LPARAM _lparam)
 {
 	static CTransformation& traTransform = CTransformation::GetInstance();
+	
 
 	switch (_msg)
 	{
@@ -281,7 +283,35 @@ BOOL CALLBACK TransformationDlgProc(HWND _hwnd,
 		{
 		case (IDC_BUTTON4):
 		{
-			traTransform.ApplyScaling(_hwnd);
+			switch (ComboBox_GetCurSel(g_ComboBox))		// Switch based on what compute mode is selected
+			{
+			case(0):
+			{
+				traTransform.PrintIdentatyMatrix(_hwnd);
+				break;
+			}
+			case(1):
+			{
+				break;
+			}
+			case(2):
+			{
+				traTransform.ApplyRotation(_hwnd);
+				break;
+			}
+			case(3):
+			{
+				traTransform.ApplyScaling(_hwnd);
+				break;
+			}
+			case(4):
+			{
+				traTransform.ApplyTranslation(_hwnd);
+				break;
+			}
+			default:
+				break;
+			}
 			break;
 		}
 		default:
@@ -451,6 +481,15 @@ int WINAPI WinMain(HINSTANCE _hInstance,
 	g_hDlgGaussian = CreateDialog(_hInstance, MAKEINTRESOURCE(IDD_DialogGaussian), hwnd, GaussianDlgProc);
 	g_hDlgQuaternion = CreateDialog(_hInstance, MAKEINTRESOURCE(IDD_DialogQuaternion), hwnd, QuaternionDlgProc);
 	g_hDlgSLERP = CreateDialog(_hInstance, MAKEINTRESOURCE(IDD_DialogSLERP), hwnd, SLERPDlgProc);
+
+	g_ComboBox = GetDlgItem(g_hDlgTransformation, IDC_COMBO1);
+
+	SendMessage(g_ComboBox, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(L"Identaty"));
+	SendMessage(g_ComboBox, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(L"Translate"));
+	SendMessage(g_ComboBox, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(L"Scale/Skew"));
+	SendMessage(g_ComboBox, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(L"Project"));
+	SendMessage(g_ComboBox, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(L"Rotate"));
+	ComboBox_SetCurSel(g_ComboBox, 0);
 
 	// Enter main event loop
 	while (true)
