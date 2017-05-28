@@ -23,6 +23,7 @@
 
 #include "Gaussian.h"
 #include "Transformation.h"
+#include "MatrixOperations.h"
 
 #define WINDOW_CLASS_NAME L"WINCLASS1"
 
@@ -138,16 +139,70 @@ BOOL CALLBACK MatrixDlgProc(HWND _hwnd,
 	WPARAM _wparam,
 	LPARAM _lparam)
 {
-	static float _value;
+	CMatrixOperations s_Matrix;
+
 	switch (_msg)
 	{
 	case WM_COMMAND:
 	{
 		switch (LOWORD(_wparam))
 		{
-		case IDC_EDIT_A11:
+		case IDOK4:
 		{
-			_value = ReadFromEditBox(_hwnd, IDC_EDIT_A11);
+			s_Matrix.GetMatrixA(g_hDlgMatrix);
+			s_Matrix.Identity(true);
+			s_Matrix.WriteMatrix(g_hDlgMatrix);
+			break;
+		}
+		case IDOK8:
+		{
+			s_Matrix.GetMatrixB(g_hDlgMatrix);
+			s_Matrix.Identity(false);
+			s_Matrix.WriteMatrix(g_hDlgMatrix);
+			break;
+		}
+		case IDOK9:
+		{
+			s_Matrix.GetMatrixA(g_hDlgMatrix);
+			s_Matrix.Transpose(true);
+			s_Matrix.WriteMatrix(g_hDlgMatrix);
+			break;
+		}
+		case IDOK11:
+		{
+			s_Matrix.GetMatrixB(g_hDlgMatrix);
+			s_Matrix.Transpose(false);
+			s_Matrix.WriteMatrix(g_hDlgMatrix);
+			break;
+		}
+		case IDOK6:
+		{
+			s_Matrix.GetMatrixA(g_hDlgMatrix);
+			s_Matrix.ScalarMultiply(true, g_hDlgMatrix);
+			s_Matrix.WriteMatrix(g_hDlgMatrix);
+			break;
+		}
+		case IDOK10:
+		{
+			s_Matrix.GetMatrixB(g_hDlgMatrix);
+			s_Matrix.ScalarMultiply(false, g_hDlgMatrix);
+			s_Matrix.WriteMatrix(g_hDlgMatrix);
+			break;
+		}
+		case IDOK2:
+		{
+			s_Matrix.GetMatrixA(g_hDlgMatrix);
+			s_Matrix.GetMatrixB(g_hDlgMatrix);
+			s_Matrix.Multiply(true);
+			s_Matrix.WriteMatrix(g_hDlgMatrix);
+			break;
+		}
+		case IDOK5:
+		{
+			s_Matrix.GetMatrixA(g_hDlgMatrix);
+			s_Matrix.GetMatrixB(g_hDlgMatrix);
+			s_Matrix.Multiply(false);
+			s_Matrix.WriteMatrix(g_hDlgMatrix);
 			break;
 		}
 		default:
@@ -158,7 +213,6 @@ BOOL CALLBACK MatrixDlgProc(HWND _hwnd,
 	}
 	case WM_CLOSE:
 	{
-		MessageBox(_hwnd, ToWideString(_value).c_str(), L"Value in A11", MB_OK);
 		ShowWindow(_hwnd, SW_HIDE);
 		return TRUE;
 		break;
