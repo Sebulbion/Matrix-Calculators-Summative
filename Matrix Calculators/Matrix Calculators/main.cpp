@@ -445,6 +445,7 @@ int WINAPI WinMain(HINSTANCE _hInstance,
 	SendMessage(g_ComboBox, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(L"Scale/Skew"));
 	SendMessage(g_ComboBox, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(L"Project"));
 	SendMessage(g_ComboBox, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(L"Rotate"));
+	ComboBox_SetCurSel(g_ComboBox, 0);
 
 	// Enter main event loop
 	while (true)
