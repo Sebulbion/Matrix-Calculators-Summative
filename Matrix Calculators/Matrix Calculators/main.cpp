@@ -25,8 +25,6 @@
 #include "Transformation.h"
 #include "MatrixOperations.h"
 
-#include <vld.h>
-
 #define WINDOW_CLASS_NAME L"WINCLASS1"
 
 HMENU g_hMenu;

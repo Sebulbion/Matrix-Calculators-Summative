@@ -34,6 +34,7 @@ CTransformation::CTransformation():
 
 CTransformation::~CTransformation()
 {
+	delete s_pTransformation;
 }
 
 CTransformation & CTransformation::GetInstance()
