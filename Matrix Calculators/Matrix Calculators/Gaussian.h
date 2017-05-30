@@ -17,6 +17,7 @@ public:
 	void MultiAdd(HWND _hDlg);
 	void Swap(HWND _hDlg);
 
+
 private:	
 
 	std::vector<float> m_vecfMatrix;

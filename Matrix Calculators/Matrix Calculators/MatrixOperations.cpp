@@ -155,8 +155,96 @@ void CMatrixOperations::Identity(bool _bIsA)
 	
 }
 
-void CMatrixOperations::Determinant(bool _bIsA)
+void CMatrixOperations::Determinant(HWND _hDlg, bool _bIsA)
 {
+	float fTempMatrix[4][4];
+	std::vector<float>* fInputMatrix;
+	int k = 0;
+	float fMinor[3][3];
+
+
+	if (_bIsA)
+	{
+		fInputMatrix = &m_vecfMatrixA;
+	}
+	else
+	{
+		fInputMatrix = &m_vecfMatrixB;
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			fTempMatrix[i][j] = fInputMatrix->at(k);
+			k++;
+		}
+	}
+
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			fMinor[i][j] = fTempMatrix[i+1][j+1];
+		}
+	}
+
+	float fMinA = fTempMatrix[0][0] * Det3D(fMinor);
+
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			if (j == 1)
+			{
+				fMinor[i][j] = fTempMatrix[i+1][j+1];
+			}
+			else
+			{
+				fMinor[i][j] = fTempMatrix[i+1][j];
+			}
+		}
+	}
+
+	float fMinB = fTempMatrix[0][1] * Det3D(fMinor);
+
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			if (j == 2)
+			{
+				fMinor[i][j] = fTempMatrix[i+1][j+1];
+			}
+			else
+			{
+				fMinor[i][j] = fTempMatrix[i+1][j];
+			}
+		}
+	}
+
+	float fMinC = fTempMatrix[0][2] * Det3D(fMinor);
+
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			fMinor[i][j] = fTempMatrix[i+1][j];
+		}
+	}
+
+	float fMinD = fTempMatrix[0][3] * Det3D(fMinor);
+
+	if (_bIsA)
+	{
+		WriteToEditBox(_hDlg, IDC_EDIT_DetA, fMinA + fMinB + fMinC + fMinD);
+
+	}
+	else
+	{
+		WriteToEditBox(_hDlg, IDC_EDIT_DetB, fMinA + fMinB + fMinC + fMinD);
+	}
+
 }
 
 void CMatrixOperations::Transpose(bool _bIsA)
@@ -227,10 +315,26 @@ void CMatrixOperations::ScalarMultiply(bool _bIsA, HWND _hDlg)
 
 void CMatrixOperations::Addition()
 {
+	for (int i = 0; i < 16; i++)
+	{
+		m_vecfMatrixR.at(i) = m_vecfMatrixA.at(i) + m_vecfMatrixB.at(i);
+	}
 }
 
-void CMatrixOperations::Subtraction()
+void CMatrixOperations::Subtraction(bool _bIsA)
 {
+	for (int i = 0; i < 16; i++)
+	{
+		if (_bIsA)
+		{
+			m_vecfMatrixR.at(i) = m_vecfMatrixA.at(i) - m_vecfMatrixB.at(i);
+
+		}
+		else
+		{
+			m_vecfMatrixR.at(i) = m_vecfMatrixB.at(i) - m_vecfMatrixA.at(i);
+		}
+	}
 }
 
 void CMatrixOperations::Multiply(bool _bIsA)
@@ -280,4 +384,13 @@ void CMatrixOperations::Multiply(bool _bIsA)
 
 		}
 	}
+}
+
+float CMatrixOperations::Det3D(float _rgfMatrix[3][3])
+{
+	float tempA = (_rgfMatrix[0][0] * ((_rgfMatrix[1][1] * _rgfMatrix[2][2]) - (_rgfMatrix[1][2] * _rgfMatrix[2][1])));
+	float tempB = (_rgfMatrix[0][1] * ((_rgfMatrix[1][0] * _rgfMatrix[2][2]) - (_rgfMatrix[2][0] * _rgfMatrix[1][2])));
+	float tempC = (_rgfMatrix[0][2] * ((_rgfMatrix[1][0] * _rgfMatrix[2][1]) - (_rgfMatrix[2][0] * _rgfMatrix[1][1])));
+
+	return (tempA - tempB + tempC);
 }

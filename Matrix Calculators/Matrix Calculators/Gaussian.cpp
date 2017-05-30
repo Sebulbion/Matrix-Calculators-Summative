@@ -113,3 +113,5 @@ void CGaussian::Swap(HWND _hDlg)
 	}
 	
 }
+
+
