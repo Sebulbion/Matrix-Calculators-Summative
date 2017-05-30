@@ -15,7 +15,8 @@ public:
 	void ApplyScaling(HWND _hDlg);
 	void ApplyTranslation(HWND _hDlg);
 	void ApplyRotation(HWND _hDlg);
-	void PrintIdentatyMatrix(HWND _hDlg);
+	void ApplyProjection(HWND _hDlg);
+	void PrintIdentityMatrix(HWND _hDlg);
 
 private:
 
@@ -32,6 +33,7 @@ private:
 	float m_rgfResultantMat[4][4];
 	float m_rgfUserInputMat[4][4];
 	float m_rgfTempMat[4][4];
+	float m_rgfProjectionMat[4][4];
 
 protected:
 	static CTransformation* s_pTransformation;

@@ -21,7 +21,13 @@ CTransformation::CTransformation():
 		{ 1,0,0,0 },
 		{ 0,1,0,0 },
 		{ 0,0,1,0 },
-		{ 0,0,0,1 } }
+		{ 0,0,0,1 } },
+		m_rgfProjectionMat{ 
+		{ 1,0,0,0 },
+		{ 0,1,0,0 },
+		{ 0,0,1,0 },
+		{ 0,0,0,1 }
+}
 {
 }
 
@@ -179,6 +185,35 @@ void CTransformation::ApplyRotation(HWND _hDlg)
 	MultiplyMatrix(_hDlg, m_rgfUserInputMat);
 }
 
+void CTransformation::ApplyProjection(HWND _hDlg)
+{
+	CreateIdentatyMatrix(m_rgfUserInputMat);
+	CreateIdentatyMatrix(m_rgfTempMat);
+
+	m_rgfTempMat[3][2] = 1 / ReadFromEditBox(_hDlg, IDC_EDIT15);
+	m_rgfTempMat[3][3] = 0;
+
+	m_rgfUserInputMat[0][0] = 0;
+	m_rgfUserInputMat[1][1] = 0;
+	m_rgfUserInputMat[2][0] = ReadFromEditBox(_hDlg, IDC_EDIT14);
+	m_rgfUserInputMat[2][1] = ReadFromEditBox(_hDlg, IDC_EDIT29);
+	m_rgfUserInputMat[2][2] = ReadFromEditBox(_hDlg, IDC_EDIT31);
+
+	for (size_t i = 0; i < 4; ++i)
+	{
+		for (size_t j = 0; j < 4; ++j)
+		{
+			m_rgfProjectionMat[i][j] =
+				m_rgfTempMat[i][0] * m_rgfUserInputMat[0][j] +
+				m_rgfTempMat[i][1] * m_rgfUserInputMat[1][j] +
+				m_rgfTempMat[i][2] * m_rgfUserInputMat[2][j] +
+				m_rgfTempMat[i][3] * m_rgfUserInputMat[3][j];
+		}
+	}
+
+	MultiplyMatrix(_hDlg, m_rgfProjectionMat);
+}
+
 void CTransformation::CreateIdentatyMatrix(float _rgMatrix[4][4])
 {
 	for (size_t i = 0; i < 4; ++i)
@@ -197,7 +232,7 @@ void CTransformation::CreateIdentatyMatrix(float _rgMatrix[4][4])
 	}
 }
 
-void CTransformation::PrintIdentatyMatrix(HWND _hDlg)
+void CTransformation::PrintIdentityMatrix(HWND _hDlg)
 {
 	CreateIdentatyMatrix(m_rgfResultantMat);
 	WriteToDialogBoxCMFormat(_hDlg);

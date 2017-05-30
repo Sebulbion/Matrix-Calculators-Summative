@@ -249,11 +249,12 @@ BOOL CALLBACK TransformationDlgProc(HWND _hwnd,
 			{
 			case(0):
 			{
-				traTransform.PrintIdentatyMatrix(_hwnd);
+				traTransform.PrintIdentityMatrix(_hwnd);
 				break;
 			}
 			case(1):
 			{
+				traTransform.ApplyProjection(_hwnd);
 				break;
 			}
 			case(2):
@@ -440,7 +441,7 @@ int WINAPI WinMain(HINSTANCE _hInstance,
 
 	g_ComboBox = GetDlgItem(g_hDlgTransformation, IDC_COMBO1);
 
-	SendMessage(g_ComboBox, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(L"Identaty"));
+	SendMessage(g_ComboBox, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(L"Identity"));
 	SendMessage(g_ComboBox, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(L"Translate"));
 	SendMessage(g_ComboBox, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(L"Scale/Skew"));
 	SendMessage(g_ComboBox, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(L"Project"));
