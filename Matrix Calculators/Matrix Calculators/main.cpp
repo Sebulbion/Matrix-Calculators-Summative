@@ -24,6 +24,7 @@
 #include "Gaussian.h"
 #include "Transformation.h"
 #include "MatrixOperations.h"
+#include "Quaternion.h"
 
 #define WINDOW_CLASS_NAME L"WINCLASS1"
 
@@ -285,27 +286,27 @@ BOOL CALLBACK TransformationDlgProc(HWND _hwnd,
 			{
 			case(0):
 			{
-				traTransform.PrintIdentityMatrix(_hwnd);
+				traTransform.PrintIdentityMatrix(g_hDlgTransformation);
 				break;
 			}
 			case(1):
 			{
-				traTransform.ApplyProjection(_hwnd);
+				traTransform.ApplyProjection(g_hDlgTransformation);
 				break;
 			}
 			case(2):
 			{
-				traTransform.ApplyRotation(_hwnd);
+				traTransform.ApplyRotation(g_hDlgTransformation);
 				break;
 			}
 			case(3):
 			{
-				traTransform.ApplyScaling(_hwnd);
+				traTransform.ApplyScaling(g_hDlgTransformation);
 				break;
 			}
 			case(4):
 			{
-				traTransform.ApplyTranslation(_hwnd);
+				traTransform.ApplyTranslation(g_hDlgTransformation);
 				break;
 			}
 			default:
@@ -388,6 +389,7 @@ BOOL CALLBACK QuaternionDlgProc(HWND _hwnd,
 	WPARAM _wparam,
 	LPARAM _lparam)
 {
+	static CQuaternion& quaQuaternion = CQuaternion::GetInstance();
 
 	switch (_msg)
 	{
@@ -395,6 +397,55 @@ BOOL CALLBACK QuaternionDlgProc(HWND _hwnd,
 	{
 		ShowWindow(_hwnd, SW_HIDE);
 		return TRUE;
+		break;
+	}
+	case WM_COMMAND:
+	{
+		switch (LOWORD(_wparam))
+		{
+		case IDC_BUTTON1:
+		{
+			quaQuaternion.ApplyAddition(g_hDlgQuaternion);
+			break;
+		}
+		case IDC_BUTTON2:
+		{
+			quaQuaternion.ApplyMultiplication(g_hDlgQuaternion, true);
+			break;
+		}
+		case IDC_BUTTON3:
+		{
+			quaQuaternion.ApplyConjugate(g_hDlgQuaternion, true);
+			break;
+		}
+		case IDC_BUTTON5:
+		{
+			quaQuaternion.ApplySubtraction(g_hDlgQuaternion, true);
+			break;
+		}
+		case IDC_BUTTON6:
+		{
+			quaQuaternion.ApplySubtraction(g_hDlgQuaternion, false);
+			break;
+		}
+		case IDC_BUTTON7:
+		{
+			quaQuaternion.ApplyMultiplication(g_hDlgQuaternion, false);
+			break;
+		}
+		case IDC_BUTTON8:
+		{
+			quaQuaternion.ApplyDotProduct(g_hDlgQuaternion);
+			break;
+		}
+		case IDC_BUTTON9:
+		{
+			quaQuaternion.ApplyConjugate(g_hDlgQuaternion, false);
+			break;
+		}
+		default:
+			break;
+		}
 		break;
 	}
 	default:

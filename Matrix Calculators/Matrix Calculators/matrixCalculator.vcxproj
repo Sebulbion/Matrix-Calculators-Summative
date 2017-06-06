@@ -79,6 +79,7 @@
   <ItemGroup>
     <ClInclude Include="Gaussian.h" />
     <ClInclude Include="MatrixOperations.h" />
+    <ClInclude Include="Quaternion.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Transformation.h" />
     <ClInclude Include="utils.h" />
@@ -90,6 +91,7 @@
     <ClCompile Include="Gaussian.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MatrixOperations.cpp" />
+    <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="Transformation.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
