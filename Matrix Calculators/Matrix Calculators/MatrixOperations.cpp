@@ -113,17 +113,17 @@ void CMatrixOperations::WriteMatrix(HWND _hDlg)
 	// Write A
 	for (int i = 0; i < m_vecfMatrixA.size(); i++)
 	{
-		WriteToEditBox(_hDlg, m_vecMatrixEditsA.at(i), m_vecfMatrixA.at(i));
+		WriteToEditBox(_hDlg, m_vecMatrixEditsA.at(i), m_vecfMatrixA.at(i)+0); // Plus zero so negative zero
 	}
 	// Write B
 	for (int i = 0; i < m_vecfMatrixB.size(); i++)
 	{
-		WriteToEditBox(_hDlg, m_vecMatrixEditsB.at(i), m_vecfMatrixB.at(i));
+		WriteToEditBox(_hDlg, m_vecMatrixEditsB.at(i), m_vecfMatrixB.at(i)+0);
 	}
 	// Write R
 	for (int i = 0; i < m_vecfMatrixR.size(); i++)
 	{
-		WriteToEditBox(_hDlg, m_vecMatrixEditsR.at(i), m_vecfMatrixR.at(i));
+		WriteToEditBox(_hDlg, m_vecMatrixEditsR.at(i), m_vecfMatrixR.at(i)+0);
 	}
 }
 
@@ -155,7 +155,7 @@ void CMatrixOperations::Identity(bool _bIsA)
 	
 }
 
-void CMatrixOperations::Determinant(HWND _hDlg, bool _bIsA)
+int CMatrixOperations::Determinant(HWND _hDlg, bool _bIsA)
 {
 	float fTempMatrix[4][4];
 	std::vector<float>* fInputMatrix;
@@ -191,22 +191,26 @@ void CMatrixOperations::Determinant(HWND _hDlg, bool _bIsA)
 
 	float fMinA = fTempMatrix[0][0] * Det3D(fMinor);
 
+	// borked?
+
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			if (j == 1)
+			if (j == 0)
 			{
-				fMinor[i][j] = fTempMatrix[i+1][j+1];
+				fMinor[i][j] = fTempMatrix[i+1][j];
 			}
 			else
 			{
-				fMinor[i][j] = fTempMatrix[i+1][j];
+				fMinor[i][j] = fTempMatrix[i+1][j+1];
 			}
 		}
 	}
 
 	float fMinB = fTempMatrix[0][1] * Det3D(fMinor);
+
+	
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -237,13 +241,15 @@ void CMatrixOperations::Determinant(HWND _hDlg, bool _bIsA)
 
 	if (_bIsA)
 	{
-		WriteToEditBox(_hDlg, IDC_EDIT_DetA, fMinA + fMinB + fMinC + fMinD);
+		WriteToEditBox(_hDlg, IDC_EDIT_DetA, fMinA - fMinB + fMinC - fMinD);
 
 	}
 	else
 	{
-		WriteToEditBox(_hDlg, IDC_EDIT_DetB, fMinA + fMinB + fMinC + fMinD);
+		WriteToEditBox(_hDlg, IDC_EDIT_DetB, fMinA - fMinB + fMinC - fMinD);
 	}
+
+	return fMinA - fMinB + fMinC - fMinD;
 
 }
 
@@ -284,8 +290,96 @@ void CMatrixOperations::Transpose(bool _bIsA)
 	}
 }
 
-void CMatrixOperations::Inverse(bool _bIsA)
+void CMatrixOperations::Inverse(HWND _hDlg, bool _bIsA)
 {
+	float D = Determinant(_hDlg,_bIsA);
+	std::vector<float>* fvecInputMatrix;
+	//std::vector<float>* fvecResultVector;
+
+
+	if (_bIsA)
+	{
+		fvecInputMatrix = &m_vecfMatrixA;
+	}
+	else
+	{
+		fvecInputMatrix = &m_vecfMatrixB;
+	}
+
+	int k = 0;
+	float fInputMatrix[4][4];
+	float fResultMatrix[4][4];
+
+
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			fInputMatrix[i][j] = fvecInputMatrix->at(k);
+			k++;
+		}
+	}
+
+	if (D == 0)
+	{
+		return;
+	}
+	else
+	{
+		fResultMatrix[0][0] = ((fInputMatrix[1][1] * fInputMatrix[2][2] * fInputMatrix[3][3]) + (fInputMatrix[1][2] * fInputMatrix[2][3] * fInputMatrix[3][1]) + (fInputMatrix[1][3] * fInputMatrix[2][1] * fInputMatrix[3][2])
+			- (fInputMatrix[1][1] * fInputMatrix[2][3] * fInputMatrix[3][2]) - (fInputMatrix[1][2] * fInputMatrix[2][1] * fInputMatrix[3][3]) - (fInputMatrix[1][3] * fInputMatrix[2][2] * fInputMatrix[3][1])) / D;
+		fResultMatrix[0][1] = ((fInputMatrix[0][1] * fInputMatrix[2][3] * fInputMatrix[3][2]) + (fInputMatrix[0][2] * fInputMatrix[2][1] * fInputMatrix[3][3]) + (fInputMatrix[0][3] * fInputMatrix[2][2] * fInputMatrix[3][1])
+			- (fInputMatrix[0][1] * fInputMatrix[2][2] * fInputMatrix[3][3]) - (fInputMatrix[0][2] * fInputMatrix[2][3] * fInputMatrix[3][1]) - (fInputMatrix[0][3] * fInputMatrix[2][1] * fInputMatrix[3][2])) / D;
+		fResultMatrix[0][2] = ((fInputMatrix[0][1] * fInputMatrix[1][2] * fInputMatrix[3][3]) + (fInputMatrix[0][2] * fInputMatrix[1][3] * fInputMatrix[3][1]) + (fInputMatrix[0][3] * fInputMatrix[1][1] * fInputMatrix[3][2])
+			- (fInputMatrix[0][1] * fInputMatrix[1][3] * fInputMatrix[3][2]) - (fInputMatrix[0][2] * fInputMatrix[1][1] * fInputMatrix[3][3]) - (fInputMatrix[0][3] * fInputMatrix[1][2] * fInputMatrix[3][1])) / D;
+		fResultMatrix[0][3] = ((fInputMatrix[0][1] * fInputMatrix[1][3] * fInputMatrix[2][2]) + (fInputMatrix[0][2] * fInputMatrix[1][1] * fInputMatrix[2][3]) + (fInputMatrix[0][3] * fInputMatrix[1][2] * fInputMatrix[2][1])
+			- (fInputMatrix[0][1] * fInputMatrix[1][2] * fInputMatrix[2][3]) - (fInputMatrix[0][2] * fInputMatrix[1][3] * fInputMatrix[2][1]) - (fInputMatrix[0][3] * fInputMatrix[1][1] * fInputMatrix[2][2])) / D;
+		fResultMatrix[1][0] = ((fInputMatrix[1][0] * fInputMatrix[2][3] * fInputMatrix[3][2]) + (fInputMatrix[1][2] * fInputMatrix[2][0] * fInputMatrix[3][3]) + (fInputMatrix[1][3] * fInputMatrix[2][2] * fInputMatrix[3][0])
+			- (fInputMatrix[1][0] * fInputMatrix[2][2] * fInputMatrix[3][3]) - (fInputMatrix[1][2] * fInputMatrix[2][3] * fInputMatrix[3][1]) - (fInputMatrix[1][3] * fInputMatrix[2][0] * fInputMatrix[3][2])) / D;
+		fResultMatrix[1][1] = ((fInputMatrix[0][0] * fInputMatrix[2][2] * fInputMatrix[3][3]) + (fInputMatrix[0][2] * fInputMatrix[2][3] * fInputMatrix[3][0]) + (fInputMatrix[0][3] * fInputMatrix[2][0] * fInputMatrix[3][2])
+			- (fInputMatrix[0][0] * fInputMatrix[2][3] * fInputMatrix[3][2]) - (fInputMatrix[0][2] * fInputMatrix[2][0] * fInputMatrix[3][3]) - (fInputMatrix[0][3] * fInputMatrix[2][2] * fInputMatrix[3][0])) / D;
+		fResultMatrix[1][2] = ((fInputMatrix[0][0] * fInputMatrix[1][3] * fInputMatrix[3][2]) + (fInputMatrix[0][2] * fInputMatrix[1][0] * fInputMatrix[3][3]) + (fInputMatrix[0][3] * fInputMatrix[1][2] * fInputMatrix[3][0])
+			- (fInputMatrix[0][0] * fInputMatrix[1][2] * fInputMatrix[3][3]) - (fInputMatrix[0][2] * fInputMatrix[1][3] * fInputMatrix[3][0]) - (fInputMatrix[0][3] * fInputMatrix[1][0] * fInputMatrix[3][2])) / D;
+		fResultMatrix[1][3] = ((fInputMatrix[0][0] * fInputMatrix[1][2] * fInputMatrix[2][3]) + (fInputMatrix[0][2] * fInputMatrix[1][3] * fInputMatrix[2][0]) + (fInputMatrix[0][3] * fInputMatrix[1][0] * fInputMatrix[2][2])
+			- (fInputMatrix[0][0] * fInputMatrix[1][3] * fInputMatrix[2][2]) - (fInputMatrix[0][2] * fInputMatrix[1][0] * fInputMatrix[2][3]) - (fInputMatrix[0][3] * fInputMatrix[1][2] * fInputMatrix[2][0])) / D;
+		fResultMatrix[2][0] = ((fInputMatrix[1][0] * fInputMatrix[2][1] * fInputMatrix[3][3]) + (fInputMatrix[1][1] * fInputMatrix[2][3] * fInputMatrix[3][0]) + (fInputMatrix[1][3] * fInputMatrix[2][0] * fInputMatrix[3][1])
+			- (fInputMatrix[1][0] * fInputMatrix[2][3] * fInputMatrix[3][1]) - (fInputMatrix[1][1] * fInputMatrix[2][0] * fInputMatrix[3][3]) - (fInputMatrix[1][3] * fInputMatrix[2][1] * fInputMatrix[3][0])) / D;
+		fResultMatrix[2][1] = ((fInputMatrix[0][0] * fInputMatrix[2][3] * fInputMatrix[3][1]) + (fInputMatrix[0][1] * fInputMatrix[2][0] * fInputMatrix[3][3]) + (fInputMatrix[0][3] * fInputMatrix[2][1] * fInputMatrix[3][0])
+			- (fInputMatrix[0][0] * fInputMatrix[2][1] * fInputMatrix[3][3]) - (fInputMatrix[0][1] * fInputMatrix[2][3] * fInputMatrix[3][1]) - (fInputMatrix[0][3] * fInputMatrix[2][0] * fInputMatrix[3][1])) / D;
+		fResultMatrix[2][2] = ((fInputMatrix[0][0] * fInputMatrix[1][1] * fInputMatrix[3][3]) + (fInputMatrix[0][1] * fInputMatrix[1][3] * fInputMatrix[3][0]) + (fInputMatrix[0][3] * fInputMatrix[1][0] * fInputMatrix[3][1])
+			- (fInputMatrix[0][0] * fInputMatrix[1][3] * fInputMatrix[3][1]) - (fInputMatrix[0][1] * fInputMatrix[1][0] * fInputMatrix[3][3]) - (fInputMatrix[0][3] * fInputMatrix[1][1] * fInputMatrix[3][0])) / D;
+		fResultMatrix[2][3] = ((fInputMatrix[0][0] * fInputMatrix[1][3] * fInputMatrix[2][1]) + (fInputMatrix[0][1] * fInputMatrix[1][0] * fInputMatrix[2][3]) + (fInputMatrix[0][3] * fInputMatrix[1][1] * fInputMatrix[2][0])
+			- (fInputMatrix[0][0] * fInputMatrix[1][1] * fInputMatrix[2][3]) - (fInputMatrix[0][1] * fInputMatrix[1][3] * fInputMatrix[2][0]) - (fInputMatrix[0][3] * fInputMatrix[1][0] * fInputMatrix[2][1])) / D;
+		fResultMatrix[3][0] = ((fInputMatrix[1][0] * fInputMatrix[2][2] * fInputMatrix[3][1]) + (fInputMatrix[1][1] * fInputMatrix[2][0] * fInputMatrix[3][2]) + (fInputMatrix[1][2] * fInputMatrix[2][1] * fInputMatrix[3][0])
+			- (fInputMatrix[1][0] * fInputMatrix[2][1] * fInputMatrix[3][2]) - (fInputMatrix[1][1] * fInputMatrix[2][2] * fInputMatrix[3][0]) - (fInputMatrix[1][2] * fInputMatrix[2][0] * fInputMatrix[3][1])) / D;
+		fResultMatrix[3][1] = ((fInputMatrix[0][0] * fInputMatrix[2][1] * fInputMatrix[3][2]) + (fInputMatrix[0][1] * fInputMatrix[2][2] * fInputMatrix[3][0]) + (fInputMatrix[0][2] * fInputMatrix[2][0] * fInputMatrix[3][1])
+			- (fInputMatrix[0][0] * fInputMatrix[2][2] * fInputMatrix[3][1]) - (fInputMatrix[0][1] * fInputMatrix[2][0] * fInputMatrix[3][2]) - (fInputMatrix[0][2] * fInputMatrix[2][1] * fInputMatrix[3][0])) / D;
+		fResultMatrix[3][2] = ((fInputMatrix[0][0] * fInputMatrix[1][2] * fInputMatrix[3][1]) + (fInputMatrix[0][1] * fInputMatrix[1][0] * fInputMatrix[3][2]) + (fInputMatrix[0][2] * fInputMatrix[1][1] * fInputMatrix[3][0])
+			- (fInputMatrix[0][0] * fInputMatrix[1][1] * fInputMatrix[3][2]) - (fInputMatrix[0][1] * fInputMatrix[1][2] * fInputMatrix[3][0]) - (fInputMatrix[0][2] * fInputMatrix[1][0] * fInputMatrix[3][1])) / D;
+		fResultMatrix[3][3] = ((fInputMatrix[0][0] * fInputMatrix[1][1] * fInputMatrix[2][2]) + (fInputMatrix[0][1] * fInputMatrix[1][2] * fInputMatrix[2][0]) + (fInputMatrix[0][2] * fInputMatrix[1][0] * fInputMatrix[2][1])
+			- (fInputMatrix[0][0] * fInputMatrix[1][2] * fInputMatrix[2][1]) - (fInputMatrix[0][1] * fInputMatrix[1][0] * fInputMatrix[2][2]) - (fInputMatrix[0][2] * fInputMatrix[1][1] * fInputMatrix[2][0])) / D;
+	}
+
+	k = 0;
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			//fvecResultVector->at(k) = fResultMatrix[i][j];
+			if (_bIsA)
+			{
+				m_vecfMatrixA.at(k) = fResultMatrix[i][j];
+
+			}
+			else
+			{
+				m_vecfMatrixB.at(k) = fResultMatrix[i][j];
+			}
+			k++;
+		}
+	}
+
+	WriteMatrix(_hDlg);
 }
 
 void CMatrixOperations::ScalarMultiply(bool _bIsA, HWND _hDlg)

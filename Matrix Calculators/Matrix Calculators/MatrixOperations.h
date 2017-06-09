@@ -15,11 +15,11 @@ public:
 	void GetMatrixB(HWND _hDlg);
 	void WriteMatrix(HWND _hDlg);
 	void Identity(bool _bIsA);
-	void Determinant(HWND _hDlg,bool _bIsA);
+	int Determinant(HWND _hDlg,bool _bIsA);
 	void Transpose(bool _bIsA);
-	void Inverse(bool _bIsA);
+	void Inverse(HWND _hDlg, bool _bIsA);
 	void ScalarMultiply(bool _bIsA, HWND _hDlg);
-	
+
 	void Addition();
 	void Subtraction(bool _bIsA);
 	void Multiply(bool _bIsA); // _bIsA true = A*B

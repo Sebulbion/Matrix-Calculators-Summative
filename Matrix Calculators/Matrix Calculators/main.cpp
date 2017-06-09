@@ -241,6 +241,18 @@ BOOL CALLBACK MatrixDlgProc(HWND _hwnd,
 			s_Matrix.Determinant(g_hDlgMatrix, false);
 			break;
 		}
+		case IDCANCEL2:
+		{
+			s_Matrix.GetMatrixA(g_hDlgMatrix);
+			s_Matrix.Inverse(g_hDlgMatrix, true);
+			break;
+		}
+		case IDCANCEL3:
+		{
+			s_Matrix.GetMatrixB(g_hDlgMatrix);
+			s_Matrix.Inverse(g_hDlgMatrix, false);
+			break;
+		}
 		default:
 			break;
 		}
