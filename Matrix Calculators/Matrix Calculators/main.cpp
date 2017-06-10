@@ -523,7 +523,20 @@ BOOL CALLBACK SLERPDlgProc(HWND _hwnd,
 			//ShowWindow(_hwnd, SW_HIDE);
 			break;
 		}
-
+		case IDC_BUTTON3:
+		{
+			SlerpCalc.GetQuarternions();
+			SlerpCalc.ConvertToMatrix(2);
+			//ShowWindow(_hwnd, SW_HIDE);
+			break;
+		}
+		case IDC_BUTTON4:
+		{
+			SlerpCalc.GetQuarternions();
+			SlerpCalc.ConvertToMatrix(3);
+			//ShowWindow(_hwnd, SW_HIDE);
+			break;
+		}
 		default:break;
 
 		}
