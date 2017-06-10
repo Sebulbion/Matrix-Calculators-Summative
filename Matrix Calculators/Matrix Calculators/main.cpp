@@ -443,6 +443,36 @@ BOOL CALLBACK QuaternionDlgProc(HWND _hwnd,
 			quaQuaternion.ApplyConjugate(g_hDlgQuaternion, false);
 			break;
 		}
+		case IDC_BUTTON10:
+		{
+			quaQuaternion.ApplyMagnitude(g_hDlgQuaternion, true);
+			break;
+		}
+		case IDC_BUTTON11:
+		{
+			quaQuaternion.ApplyMagnitude(g_hDlgQuaternion, false);
+			break;
+		}
+		case IDC_BUTTON12:
+		{
+			quaQuaternion.ApplyInverse(g_hDlgQuaternion, true);
+			break;
+		}
+		case IDC_BUTTON13:
+		{
+			quaQuaternion.ApplyInverse(g_hDlgQuaternion, false);
+			break;
+		}
+		case IDC_BUTTON14:
+		{
+			quaQuaternion.ApplyScalar(g_hDlgQuaternion, true);
+			break;
+		}
+		case IDC_BUTTON15:
+		{
+			quaQuaternion.ApplyScalar(g_hDlgQuaternion, false);
+			break;
+		}
 		default:
 			break;
 		}

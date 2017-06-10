@@ -11,11 +11,13 @@ public:
 	static CQuaternion& GetInstance();
 
 	void ApplyAddition(HWND _hDlg);
-	void ApplySubtraction(HWND _hDlg, bool _fAMinusB);
-	void ApplyMultiplication(HWND _hDlg, bool _fATimesB);
+	void ApplySubtraction(HWND _hDlg, bool _bAMinusB);
+	void ApplyMultiplication(HWND _hDlg, bool _bATimesB);
 	void ApplyDotProduct(HWND _hDlg);
-	void ApplyConjugate(HWND _hDlg, bool _fIsA);
-	void ApplyMagnitude(HWND _hDlg, bool _fIsA);
+	void ApplyConjugate(HWND _hDlg, bool _bIsA);
+	void ApplyMagnitude(HWND _hDlg, bool _bIsA);
+	void ApplyInverse(HWND _hDlg, bool _bIsA);
+	void ApplyScalar(HWND _hDlg, bool _bIsA);
 
 private:
 	CQuaternion();

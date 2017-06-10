@@ -52,6 +52,7 @@ void CQuaternion::ApplySubtraction(HWND _hDlg, bool _bAMinusB)
 {
 	ReadInput(_hDlg);
 
+	// This calculates a-b and prints the result as ether positive or negative depending on the bool _bAMinusB (a-b = (b-a) * -1)
 	WriteToEditBox(_hDlg, IDC_EDIT10, (m_rgfQuaternionOne[0] - m_rgfQuaternionTwo[0]) * (_bAMinusB? 1: -1));
 	WriteToEditBox(_hDlg, IDC_EDIT11, (m_rgfQuaternionOne[1] - m_rgfQuaternionTwo[1]) * (_bAMinusB? 1: -1));
 	WriteToEditBox(_hDlg, IDC_EDIT12, (m_rgfQuaternionOne[2] - m_rgfQuaternionTwo[2]) * (_bAMinusB? 1: -1));
@@ -149,10 +150,59 @@ void CQuaternion::ApplyMagnitude(HWND _hDlg, bool _bIsA)
 
 	if (_bIsA)
 	{
-
+		WriteToEditBox(_hDlg, IDC_EDIT9, std::sqrt(m_rgfQuaternionOne[0] * m_rgfQuaternionOne[0] + m_rgfQuaternionOne[1] * m_rgfQuaternionOne[1] +
+			m_rgfQuaternionOne[2] * m_rgfQuaternionOne[2] + m_rgfQuaternionOne[3] * m_rgfQuaternionOne[3]));
 	}
 	else
 	{
+		WriteToEditBox(_hDlg, IDC_EDIT9, std::sqrt(m_rgfQuaternionTwo[0] * m_rgfQuaternionTwo[0] + m_rgfQuaternionTwo[1] * m_rgfQuaternionTwo[1] +
+			m_rgfQuaternionTwo[2] * m_rgfQuaternionTwo[2] + m_rgfQuaternionTwo[3] * m_rgfQuaternionTwo[3]));
+	}
+}
 
+void CQuaternion::ApplyInverse(HWND _hDlg, bool _bIsA)
+{
+	ReadInput(_hDlg);
+	float fMagnitude;
+
+	if (_bIsA)
+	{
+		fMagnitude = std::sqrt(m_rgfQuaternionOne[0] * m_rgfQuaternionOne[0] + m_rgfQuaternionOne[1] * m_rgfQuaternionOne[1] +
+			m_rgfQuaternionOne[2] * m_rgfQuaternionOne[2] + m_rgfQuaternionOne[3] * m_rgfQuaternionOne[3]);
+
+		WriteToEditBox(_hDlg, IDC_EDIT10, m_rgfQuaternionOne[0] / (fMagnitude * fMagnitude));
+		WriteToEditBox(_hDlg, IDC_EDIT11, -m_rgfQuaternionOne[1] / (fMagnitude * fMagnitude));
+		WriteToEditBox(_hDlg, IDC_EDIT12, -m_rgfQuaternionOne[2] / (fMagnitude * fMagnitude));
+		WriteToEditBox(_hDlg, IDC_EDIT13, -m_rgfQuaternionOne[3] / (fMagnitude * fMagnitude));
+	}
+	else
+	{
+		fMagnitude = std::sqrt(m_rgfQuaternionTwo[0] * m_rgfQuaternionTwo[0] + m_rgfQuaternionTwo[1] * m_rgfQuaternionTwo[1] +
+			m_rgfQuaternionTwo[2] * m_rgfQuaternionTwo[2] + m_rgfQuaternionTwo[3] * m_rgfQuaternionTwo[3]);
+
+		WriteToEditBox(_hDlg, IDC_EDIT10, m_rgfQuaternionTwo[0] / (fMagnitude * fMagnitude));
+		WriteToEditBox(_hDlg, IDC_EDIT11, -m_rgfQuaternionTwo[1] / (fMagnitude * fMagnitude));
+		WriteToEditBox(_hDlg, IDC_EDIT12, -m_rgfQuaternionTwo[2] / (fMagnitude * fMagnitude));
+		WriteToEditBox(_hDlg, IDC_EDIT13, -m_rgfQuaternionTwo[3] / (fMagnitude * fMagnitude));
+	}
+}
+
+void CQuaternion::ApplyScalar(HWND _hDlg, bool _bIsA)
+{
+	ReadInput(_hDlg);
+
+	if (_bIsA)
+	{
+		WriteToEditBox(_hDlg, IDC_EDIT10, m_rgfQuaternionOne[0] * ReadFromEditBox(_hDlg, IDC_EDIT14));
+		WriteToEditBox(_hDlg, IDC_EDIT11, m_rgfQuaternionOne[1] * ReadFromEditBox(_hDlg, IDC_EDIT14));
+		WriteToEditBox(_hDlg, IDC_EDIT12, m_rgfQuaternionOne[2] * ReadFromEditBox(_hDlg, IDC_EDIT14));
+		WriteToEditBox(_hDlg, IDC_EDIT13, m_rgfQuaternionOne[3] * ReadFromEditBox(_hDlg, IDC_EDIT14));
+	}
+	else
+	{
+		WriteToEditBox(_hDlg, IDC_EDIT10, m_rgfQuaternionTwo[0] * ReadFromEditBox(_hDlg, IDC_EDIT14));
+		WriteToEditBox(_hDlg, IDC_EDIT11, m_rgfQuaternionTwo[1] * ReadFromEditBox(_hDlg, IDC_EDIT14));
+		WriteToEditBox(_hDlg, IDC_EDIT12, m_rgfQuaternionTwo[2] * ReadFromEditBox(_hDlg, IDC_EDIT14));
+		WriteToEditBox(_hDlg, IDC_EDIT13, m_rgfQuaternionTwo[3] * ReadFromEditBox(_hDlg, IDC_EDIT14));
 	}
 }
