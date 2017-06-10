@@ -24,6 +24,7 @@
 #include "Gaussian.h"
 #include "Transformation.h"
 #include "MatrixOperations.h"
+#include "Slerp.h"
 
 #define WINDOW_CLASS_NAME L"WINCLASS1"
 
@@ -409,6 +410,7 @@ BOOL CALLBACK QuaternionDlgProc(HWND _hwnd,
 		return TRUE;
 		break;
 	}
+	
 	default:
 		break;
 	}
@@ -420,6 +422,7 @@ BOOL CALLBACK SLERPDlgProc(HWND _hwnd,
 	WPARAM _wparam,
 	LPARAM _lparam)
 {
+	CSlerp SlerpCalc(g_hDlgSLERP);
 
 	switch (_msg)
 	{
@@ -428,6 +431,22 @@ BOOL CALLBACK SLERPDlgProc(HWND _hwnd,
 		ShowWindow(_hwnd, SW_HIDE);
 		return TRUE;
 		break;
+	}
+	case WM_COMMAND:
+	{
+		switch (LOWORD(_wparam))
+		{
+		case IDC_BUTTON2:
+		{
+			SlerpCalc.GetQuarternions();
+			SlerpCalc.ConvertToMatrix(1);
+			//ShowWindow(_hwnd, SW_HIDE);
+			break;
+		}
+
+		default:break;
+
+		}
 	}
 	default:
 		break;
