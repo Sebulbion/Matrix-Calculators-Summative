@@ -93,7 +93,7 @@ void CQuaternion::ApplyMultiplication(HWND _hDlg, bool _bATimesB)
 		fJ += m_rgfQuaternionOne[3] * m_rgfQuaternionTwo[1];
 		fJ -= m_rgfQuaternionOne[1] * m_rgfQuaternionTwo[3];
 
-		fK += m_rgfQuaternionOne[2] * m_rgfQuaternionTwo[2];
+		fK += m_rgfQuaternionOne[1] * m_rgfQuaternionTwo[2];
 		fK -= m_rgfQuaternionOne[2] * m_rgfQuaternionTwo[1];
 	}
 	else
@@ -104,7 +104,7 @@ void CQuaternion::ApplyMultiplication(HWND _hDlg, bool _bATimesB)
 		fJ -= m_rgfQuaternionOne[3] * m_rgfQuaternionTwo[1];
 		fJ += m_rgfQuaternionOne[1] * m_rgfQuaternionTwo[3];
 
-		fK -= m_rgfQuaternionOne[2] * m_rgfQuaternionTwo[2];
+		fK -= m_rgfQuaternionOne[1] * m_rgfQuaternionTwo[2];
 		fK += m_rgfQuaternionOne[2] * m_rgfQuaternionTwo[1];
 	}
 
