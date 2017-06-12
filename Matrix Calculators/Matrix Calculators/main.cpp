@@ -530,7 +530,7 @@ BOOL CALLBACK SLERPDlgProc(HWND _hwnd,
 			//ShowWindow(_hwnd, SW_HIDE);
 			break;
 		}
-		case IDC_BUTTON4:
+		case IDC_BUTTON5:
 		{
 			SlerpCalc.GetQuarternions();
 			SlerpCalc.ConvertToMatrix(3);

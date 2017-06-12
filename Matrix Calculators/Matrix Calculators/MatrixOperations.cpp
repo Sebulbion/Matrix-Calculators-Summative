@@ -155,7 +155,7 @@ void CMatrixOperations::Identity(bool _bIsA)
 	
 }
 
-int CMatrixOperations::Determinant(HWND _hDlg, bool _bIsA)
+float CMatrixOperations::Determinant(HWND _hDlg, bool _bIsA)
 {
 	float fTempMatrix[4][4];
 	std::vector<float>* fInputMatrix;

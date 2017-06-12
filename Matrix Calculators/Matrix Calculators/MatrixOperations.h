@@ -15,7 +15,7 @@ public:
 	void GetMatrixB(HWND _hDlg);
 	void WriteMatrix(HWND _hDlg);
 	void Identity(bool _bIsA);
-	int Determinant(HWND _hDlg,bool _bIsA);
+	float Determinant(HWND _hDlg,bool _bIsA);
 	void Transpose(bool _bIsA);
 	void Inverse(HWND _hDlg, bool _bIsA);
 	void ScalarMultiply(bool _bIsA, HWND _hDlg);
