@@ -25,20 +25,6 @@ void CSlerp::Normalize(float _toNormalize[4])
 	{
 		_toNormalize[i] = _toNormalize[i] / iNormal;
 	}
-
-	/*iNormal = sqrt(pow(m_rgfQuartonionB[0], 2) + pow(m_rgfQuartonionB[1], 2) + pow(m_rgfQuartonionB[2], 2) + pow(m_rgfQuartonionB[3], 2));
-
-	for (int i = 0; i < 4; i++)
-	{
-		m_rgfQuartonionB[i] = m_rgfQuartonionB[i] / iNormal;
-	}
-
-	iNormal = sqrt(pow(m_rgfQuartonionSlerp[0], 2) + pow(m_rgfQuartonionSlerp[1], 2) + pow(m_rgfQuartonionSlerp[2], 2) + pow(m_rgfQuartonionSlerp[3], 2));
-
-	for (int i = 0; i < 4; i++)
-	{
-		m_rgfQuartonionSlerp[i] = m_rgfQuartonionSlerp[i] / iNormal;
-	}*/
 }
 
 void CSlerp::ConvertToMatrix(int _iQuarternion)
@@ -104,4 +90,54 @@ void CSlerp::GetQuarternions()
 	m_rgfQuartonionSlerp[1] = ReadFromEditBox(m_dlgHandle, IDC_EDIT11);
 	m_rgfQuartonionSlerp[2] = ReadFromEditBox(m_dlgHandle, IDC_EDIT12);
 	m_rgfQuartonionSlerp[3] = ReadFromEditBox(m_dlgHandle, IDC_EDIT13);
+
+	m_fScalar = ReadFromEditBox(m_dlgHandle, IDC_EDIT9);
+}
+
+void CSlerp::SlerpABT()
+{
+	float angle = 0;
+
+	Normalize(m_rgfQuartonionA);
+	Normalize(m_rgfQuartonionB);
+
+	for (int i = 0; i < 4; i++)
+	{
+		angle += m_rgfQuartonionA[i] * m_rgfQuartonionB[i];
+	}
+
+	angle = acos(angle);
+
+	if (fabs(angle) > 0.9995)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			m_rgfQuartonionSlerp[i] = m_rgfQuartonionA[i] + (m_fScalar*(m_rgfQuartonionB[i] - m_rgfQuartonionA[i]));
+		}
+	}
+	else
+	{
+		if (angle < 0.0f)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				m_rgfQuartonionB[i] = -m_rgfQuartonionB[i];
+			}
+
+			angle = -angle;
+		}
+
+
+		for (int i = 0; i < 4; i++)
+		{
+			m_rgfQuartonionSlerp[i] += (m_rgfQuartonionA[i] * sin((1 - m_fScalar)*angle) / sin(angle)) + (m_rgfQuartonionB[i] * (sin(m_fScalar*angle) / sin(angle)));
+		}
+	}
+	
+	
+
+	WriteToEditBox(m_dlgHandle, IDC_EDIT10, m_rgfQuartonionSlerp[0]);
+	WriteToEditBox(m_dlgHandle, IDC_EDIT11, m_rgfQuartonionSlerp[1]);
+	WriteToEditBox(m_dlgHandle, IDC_EDIT12, m_rgfQuartonionSlerp[2]);
+	WriteToEditBox(m_dlgHandle, IDC_EDIT13, m_rgfQuartonionSlerp[3]);
 }

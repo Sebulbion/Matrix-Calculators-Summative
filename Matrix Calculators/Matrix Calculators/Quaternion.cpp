@@ -118,10 +118,19 @@ void CQuaternion::ApplyDotProduct(HWND _hDlg)
 {
 	ReadInput(_hDlg);
 
-	WriteToEditBox(_hDlg, IDC_EDIT10, m_rgfQuaternionOne[0] * m_rgfQuaternionTwo[0]);
+	//INCORRECT
+	/*WriteToEditBox(_hDlg, IDC_EDIT10, m_rgfQuaternionOne[0] * m_rgfQuaternionTwo[0]);
 	WriteToEditBox(_hDlg, IDC_EDIT11, -m_rgfQuaternionOne[1] * m_rgfQuaternionTwo[1]);
 	WriteToEditBox(_hDlg, IDC_EDIT12, -m_rgfQuaternionOne[2] * m_rgfQuaternionTwo[2]);
 	WriteToEditBox(_hDlg, IDC_EDIT13, -m_rgfQuaternionOne[3] * m_rgfQuaternionTwo[3]);
+	*/
+
+	/* CORRET DOT
+	for (int i = 0; i < 4; i++)
+	{
+		angle += m_rgfQuartonionA[i] * m_rgfQuartonionB[i];
+	}
+	*/
 }
 
 void CQuaternion::ApplyConjugate(HWND _hDlg, bool _bIsA)

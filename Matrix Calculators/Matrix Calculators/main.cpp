@@ -537,6 +537,12 @@ BOOL CALLBACK SLERPDlgProc(HWND _hwnd,
 			//ShowWindow(_hwnd, SW_HIDE);
 			break;
 		}
+		case IDC_BUTTON1:
+		{
+			SlerpCalc.GetQuarternions();
+			SlerpCalc.SlerpABT();
+			break;
+		}
 		default:break;
 
 		}
