@@ -173,14 +173,14 @@ void CTransformation::ApplyRotation(HWND _hDlg)
 
 	m_rgfUserInputMat[0][0] = pow(fX, 2) * (1 - fCosTheta) + fCosTheta;
 	m_rgfUserInputMat[0][1] = fX * fY * (1 - fCosTheta) - fZ * fSinTheta;
-	m_rgfUserInputMat[0][2] = fX * fY * (1 - fCosTheta) + fY * fSinTheta;
+	m_rgfUserInputMat[0][2] = fX * fZ * (1 - fCosTheta) + fY * fSinTheta;
 
 	m_rgfUserInputMat[1][0] = fX * fY * (1 - fCosTheta) + fZ * fSinTheta;
 	m_rgfUserInputMat[1][1] = pow(fY, 2) * (1 - fCosTheta) + fCosTheta;
 	m_rgfUserInputMat[1][2] = fY * fZ * (1 - fCosTheta) - fX * fSinTheta;
 
-	m_rgfUserInputMat[2][0] = fX * fY * (1 - fCosTheta) - fY * fSinTheta;
-	m_rgfUserInputMat[1][2] = fY * fZ * (1 - fCosTheta) + fX * fSinTheta;
+	m_rgfUserInputMat[2][0] = fX * fZ * (1 - fCosTheta) - fY * fSinTheta;
+	m_rgfUserInputMat[2][1] = fY * fZ * (1 - fCosTheta) + fX * fSinTheta;
 	m_rgfUserInputMat[2][2] = pow(fZ, 2) * (1 - fCosTheta) + fCosTheta;
 
 	MultiplyMatrix(_hDlg, m_rgfUserInputMat);
@@ -191,14 +191,19 @@ void CTransformation::ApplyProjection(HWND _hDlg)
 	CreateIdentatyMatrix(m_rgfUserInputMat);
 	CreateIdentatyMatrix(m_rgfTempMat);
 
+	float fMag = sqrt(
+		pow(ReadFromEditBox(_hDlg, IDC_EDIT14), 2) +
+		pow(ReadFromEditBox(_hDlg, IDC_EDIT29), 2) +
+		pow(ReadFromEditBox(_hDlg, IDC_EDIT31), 2));
+
 	m_rgfTempMat[3][2] = 1 / ReadFromEditBox(_hDlg, IDC_EDIT15);
 	m_rgfTempMat[3][3] = 0;
 
 	m_rgfUserInputMat[0][0] = 0;
 	m_rgfUserInputMat[1][1] = 0;
-	m_rgfUserInputMat[2][0] = ReadFromEditBox(_hDlg, IDC_EDIT14);
-	m_rgfUserInputMat[2][1] = ReadFromEditBox(_hDlg, IDC_EDIT29);
-	m_rgfUserInputMat[2][2] = ReadFromEditBox(_hDlg, IDC_EDIT31);
+	m_rgfUserInputMat[2][0] = ReadFromEditBox(_hDlg, IDC_EDIT14) / fMag;
+	m_rgfUserInputMat[2][1] = ReadFromEditBox(_hDlg, IDC_EDIT29) / fMag;
+	m_rgfUserInputMat[2][2] = ReadFromEditBox(_hDlg, IDC_EDIT31) / fMag;
 
 	for (size_t i = 0; i < 4; ++i)
 	{
