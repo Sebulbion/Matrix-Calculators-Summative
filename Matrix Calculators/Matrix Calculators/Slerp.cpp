@@ -106,7 +106,7 @@ void CSlerp::SlerpABT()
 		angle += m_rgfQuartonionA[i] * m_rgfQuartonionB[i];
 	}
 
-	angle = acos(angle);
+	//angle = acos(angle);
 
 	if (fabs(angle) > 0.9995)
 	{
@@ -127,10 +127,11 @@ void CSlerp::SlerpABT()
 			angle = -angle;
 		}
 
+		angle = acos(angle);
 
 		for (int i = 0; i < 4; i++)
 		{
-			m_rgfQuartonionSlerp[i] += (m_rgfQuartonionA[i] * sin((1 - m_fScalar)*angle) / sin(angle)) + (m_rgfQuartonionB[i] * (sin(m_fScalar*angle) / sin(angle)));
+			m_rgfQuartonionSlerp[i] = (m_rgfQuartonionA[i] * sin((1 - m_fScalar)*angle) / sin(angle)) + (m_rgfQuartonionB[i] * (sin(m_fScalar*angle) / sin(angle)));
 		}
 	}
 	
