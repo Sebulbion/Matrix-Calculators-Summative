@@ -38,6 +38,12 @@ CQuaternion & CQuaternion::GetInstance()
 	return (*s_pQuaternion);
 }
 
+void CQuaternion::ResetInstance()
+{
+	delete s_pQuaternion;
+	s_pQuaternion = nullptr;
+}
+
 void CQuaternion::ApplyAddition(HWND _hDlg)
 {
 	ReadInput(_hDlg);

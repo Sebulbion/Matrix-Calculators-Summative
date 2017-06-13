@@ -404,7 +404,18 @@ void CMatrixOperations::ScalarMultiply(bool _bIsA, HWND _hDlg)
 		tempMatrix->at(i) *= iScalar;
 	}
 
+}
 
+void CMatrixOperations::Swap(HWND _hDlg)
+{
+	std::vector<float> vecfMatrixTemp;
+
+	for (int i = 0; i < 16; i++)
+	{
+		vecfMatrixTemp.push_back(m_vecfMatrixA.at(i));
+		m_vecfMatrixA.at(i) = m_vecfMatrixB.at(i);
+		m_vecfMatrixB.at(i) = vecfMatrixTemp.at(i);
+	}
 }
 
 void CMatrixOperations::Addition()
@@ -473,6 +484,60 @@ void CMatrixOperations::Multiply(bool _bIsA)
 
 				}
 				
+			}
+			l++;
+
+		}
+	}
+}
+
+void CMatrixOperations::Pow(bool _bIsA)
+{
+	int k = 0;
+	float temp2DA[4][4];
+	float temp2DB[4][4];
+	float temp2DR[4][4];
+
+	if (_bIsA == true)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				temp2DA[i][j] = m_vecfMatrixA.at(k);
+				k++;
+			}
+		}
+	}
+	else
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				temp2DB[i][j] = m_vecfMatrixB.at(k);
+				k++;
+			}
+		}
+	}
+
+	int l = 0;
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			for (int k = 0; k < 4; k++)
+			{
+				if (_bIsA == true)
+				{
+					m_vecfMatrixR.at(l) += (temp2DA[i][k] * temp2DA[k][j]);
+				}
+				else
+				{
+					m_vecfMatrixR.at(l) += (temp2DB[i][k] * temp2DB[k][j]);
+
+				}
+
 			}
 			l++;
 

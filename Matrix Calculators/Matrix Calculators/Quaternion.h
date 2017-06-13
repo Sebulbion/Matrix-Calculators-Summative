@@ -9,6 +9,7 @@ class CQuaternion
 public:
 	~CQuaternion();
 	static CQuaternion& GetInstance();
+	static void ResetInstance();
 
 	void ApplyAddition(HWND _hDlg);
 	void ApplySubtraction(HWND _hDlg, bool _bAMinusB);

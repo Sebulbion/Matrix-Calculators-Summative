@@ -79,6 +79,8 @@ LRESULT CALLBACK WindowProc(HWND _hwnd,
 		{
 		case ID_EXIT:
 		{
+			CTransformation::ResetInstance();
+			CQuaternion::ResetInstance();
 			PostQuitMessage(0);
 			break;
 		}
@@ -120,6 +122,8 @@ LRESULT CALLBACK WindowProc(HWND _hwnd,
 
 	case WM_DESTROY:
 	{
+		CTransformation::ResetInstance();
+		CQuaternion::ResetInstance();
 		// Kill the application, this sends a WM_QUIT message.
 		PostQuitMessage(0);
 
@@ -160,6 +164,14 @@ BOOL CALLBACK MatrixDlgProc(HWND _hwnd,
 		{
 			s_Matrix.GetMatrixB(g_hDlgMatrix);
 			s_Matrix.Identity(false);
+			s_Matrix.WriteMatrix(g_hDlgMatrix);
+			break;
+		}
+		case IDC_SWAP:
+		{
+			s_Matrix.GetMatrixA(g_hDlgMatrix);
+			s_Matrix.GetMatrixB(g_hDlgMatrix);
+			s_Matrix.Swap(g_hDlgMatrix);
 			s_Matrix.WriteMatrix(g_hDlgMatrix);
 			break;
 		}
@@ -253,6 +265,20 @@ BOOL CALLBACK MatrixDlgProc(HWND _hwnd,
 		{
 			s_Matrix.GetMatrixB(g_hDlgMatrix);
 			s_Matrix.Inverse(g_hDlgMatrix, false);
+			break;
+		}
+		case IDC_APOW:
+		{
+			s_Matrix.GetMatrixA(g_hDlgMatrix);
+			s_Matrix.Pow(true);
+			s_Matrix.WriteMatrix(g_hDlgMatrix);
+			break;
+		}
+		case IDC_BPOW:
+		{
+			s_Matrix.GetMatrixB(g_hDlgMatrix);
+			s_Matrix.Pow(false);
+			s_Matrix.WriteMatrix(g_hDlgMatrix);
 			break;
 		}
 		default:
@@ -646,6 +672,7 @@ int WINAPI WinMain(HINSTANCE _hInstance,
 		// Main game processing goes here.
 		GameLoop(); //One frame of game logic occurs here...
 	}
+
 
 	// Return to Windows like this...
 	return (static_cast<int>(msg.wParam));

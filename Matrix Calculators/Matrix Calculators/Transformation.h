@@ -10,6 +10,7 @@ public:
 	~CTransformation();
 
 	static CTransformation& GetInstance();
+	static void ResetInstance();
 
 	//void SetResultantMat(HWND _hDlg);
 	void ApplyScaling(HWND _hDlg);
@@ -22,7 +23,7 @@ private:
 
 	CTransformation();
 	CTransformation(const CTransformation& _kr);
-	CTransformation& operator=(const CTransformation& _kr);								   
+	CTransformation& operator=(const CTransformation& _kr);				
 																						   
 	void WriteToDialogBoxCMFormat(HWND _hDlg);											   
 	void WriteToDialogBoxRMFormat(HWND _hDlg);											   

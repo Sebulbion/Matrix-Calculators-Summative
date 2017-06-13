@@ -20,9 +20,12 @@ public:
 	void Inverse(HWND _hDlg, bool _bIsA);
 	void ScalarMultiply(bool _bIsA, HWND _hDlg);
 
+	void Swap(HWND _hDlg);
+
 	void Addition();
 	void Subtraction(bool _bIsA);
 	void Multiply(bool _bIsA); // _bIsA true = A*B
+	void Pow(bool _bIsA);
 
 private:
 
